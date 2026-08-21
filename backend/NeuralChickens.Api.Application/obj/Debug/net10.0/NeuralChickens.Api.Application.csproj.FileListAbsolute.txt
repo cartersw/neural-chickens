@@ -1,0 +1,12 @@
+C:\Users\c.wildenradt\source\repos\neural-chickens\backend\NeuralChickens.Api.Application\bin\Debug\net10.0\NeuralChickens.Api.Application.deps.json
+C:\Users\c.wildenradt\source\repos\neural-chickens\backend\NeuralChickens.Api.Application\bin\Debug\net10.0\NeuralChickens.Api.Application.dll
+C:\Users\c.wildenradt\source\repos\neural-chickens\backend\NeuralChickens.Api.Application\bin\Debug\net10.0\NeuralChickens.Api.Application.pdb
+C:\Users\c.wildenradt\source\repos\neural-chickens\backend\NeuralChickens.Api.Application\obj\Debug\net10.0\NeuralChickens.Api.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\c.wildenradt\source\repos\neural-chickens\backend\NeuralChickens.Api.Application\obj\Debug\net10.0\NeuralChickens.Api.Application.AssemblyInfoInputs.cache
+C:\Users\c.wildenradt\source\repos\neural-chickens\backend\NeuralChickens.Api.Application\obj\Debug\net10.0\NeuralChickens.Api.Application.AssemblyInfo.cs
+C:\Users\c.wildenradt\source\repos\neural-chickens\backend\NeuralChickens.Api.Application\obj\Debug\net10.0\NeuralChickens.Api.Application.csproj.CoreCompileInputs.cache
+C:\Users\c.wildenradt\source\repos\neural-chickens\backend\NeuralChickens.Api.Application\obj\Debug\net10.0\NeuralChickens.Api.Application.sourcelink.json
+C:\Users\c.wildenradt\source\repos\neural-chickens\backend\NeuralChickens.Api.Application\obj\Debug\net10.0\NeuralChickens.Api.Application.dll
+C:\Users\c.wildenradt\source\repos\neural-chickens\backend\NeuralChickens.Api.Application\obj\Debug\net10.0\refint\NeuralChickens.Api.Application.dll
+C:\Users\c.wildenradt\source\repos\neural-chickens\backend\NeuralChickens.Api.Application\obj\Debug\net10.0\NeuralChickens.Api.Application.pdb
+C:\Users\c.wildenradt\source\repos\neural-chickens\backend\NeuralChickens.Api.Application\obj\Debug\net10.0\ref\NeuralChickens.Api.Application.dll

@@ -1,2 +1,8 @@
 <Solution>
+  <Folder Name="/backend/">
+    <Project Path="backend/NeuralChickens.Api.Application/NeuralChickens.Api.Application.csproj" />
+    <Project Path="backend/NeuralChickens.Api.Common/NeuralChickens.Api.Common.csproj" />
+    <Project Path="backend/NeuralChickens.Api.Domain/NeuralChickens.Api.Domain.csproj" />
+    <Project Path="backend/NeuralChickens.Api/NeuralChickens.Api.csproj" />
+  </Folder>
 </Solution>
