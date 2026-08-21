@@ -1,0 +1,6 @@
+@NeuralChickens.Api_HostAddress = http://localhost:5198
+
+GET {{NeuralChickens.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
