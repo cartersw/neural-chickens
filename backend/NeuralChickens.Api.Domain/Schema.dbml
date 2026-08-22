@@ -1,6 +1,10 @@
 Table Simulations {
   Id int [primary key]
   SimulationType int
+  Status int
+  CreatedAt DateTime
+  StartedAt DateTime
+  CompletedAt DateTime?
   VideoPath varchar
 }
 
@@ -12,6 +16,7 @@ Table Chickens {
 Table SimulationChickens{
   SimulationId int
   ChickenId int
+  Position int
 }
 
 Table RaceSimulationConfiguration{
