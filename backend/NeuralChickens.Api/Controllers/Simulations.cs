@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NeuralChickens.Api.Application.Contracts;
+using NeuralChickens.Api.Application.Interfaces;
+
 
 namespace NeuralChickens.Api.Controllers
 {

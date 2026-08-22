@@ -1,4 +1,4 @@
-using NeuralChickens.Api.Application.Contracts;
+using NeuralChickens.Api.Application.Interfaces;
 using NeuralChickens.Api.Application.Services;
 
 

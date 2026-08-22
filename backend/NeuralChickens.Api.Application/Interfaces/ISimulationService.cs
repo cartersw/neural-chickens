@@ -1,6 +1,6 @@
 ﻿using NeuralChickens.Api.Common.Results;
 
-namespace NeuralChickens.Api.Application.Contracts
+namespace NeuralChickens.Api.Application.Interfaces
 {
     public interface ISimulationService
     {
