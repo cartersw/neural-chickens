@@ -1,8 +1,16 @@
 @NeuralChickens.Api_HostAddress = https://localhost:7231
 
 
+@id = 0
 
-@id=0
-GET {{NeuralChickens.Api_HostAddress}}/api/simulations/{{id}}/result
+POST {{NeuralChickens.Api_HostAddress}}/api/simulations/{{id}}/start
+
+###
+
+GET {{NeuralChickens.Api_HostAddress}}/api/simulations/{{id}}/video
+
+###
+
+GET {{NeuralChickens.Api_HostAddress}}/api/simulations/{{id}}
 
 ###

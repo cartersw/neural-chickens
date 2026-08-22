@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NeuralChickens.Api.Application.DTOs.Simulation;
 using NeuralChickens.Api.Application.Interfaces;
 
 
@@ -10,7 +11,7 @@ namespace NeuralChickens.Api.Controllers
     {
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetSimulation(int id)
+        public async Task<ActionResult<GetSimulationDto>> GetSimulation(int id)
         {
             var result = await simulationService.GetSimulationAsync(id);
 

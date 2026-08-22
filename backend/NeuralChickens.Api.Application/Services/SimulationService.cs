@@ -1,4 +1,5 @@
-﻿using NeuralChickens.Api.Application.Interfaces;
+﻿using NeuralChickens.Api.Application.DTOs.Simulation;
+using NeuralChickens.Api.Application.Interfaces;
 using NeuralChickens.Api.Common.Results;
 
 namespace NeuralChickens.Api.Application.Services
@@ -6,9 +7,20 @@ namespace NeuralChickens.Api.Application.Services
     public class SimulationService : ISimulationService
     {
 
-        public Task<Result> GetSimulationAsync(int id)
+        public async Task<Result<GetSimulationDto>> GetSimulationAsync(int id)
         {
-            throw new NotImplementedException();
+            var getSimulationDto = new GetSimulationDto
+            {
+                Id = 5,
+                SimulationType = "Race",
+                Status = "Completed",
+                RequestedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.UtcNow,
+                StartedAt = DateTime.UtcNow,
+                CompletedAt = DateTime.UtcNow
+            };
+
+            return Result<GetSimulationDto>.Success(getSimulationDto);
         }
         public async Task<Result> StartSimulationAsync(int id)
         {
