@@ -1,6 +1,8 @@
-@NeuralChickens.Api_HostAddress = http://localhost:5296
+@NeuralChickens.Api_HostAddress = https://localhost:7231
 
-GET {{NeuralChickens.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+
+
+@id=0
+GET {{NeuralChickens.Api_HostAddress}}/api/simulations/{{id}}/result
 
 ###
