@@ -1,0 +1,27 @@
+Table Simulations {
+  Id int [primary key]
+  SimulationType int
+  Videopath varchar
+}
+
+Table Chickens {
+  Id int [primary key]
+  Wins int
+}
+
+Table SimulationChickens{
+  SimulationId int
+  ChickenId int
+}
+
+Table RaceSimulations{
+  SimulationId int [primary key]
+
+}
+
+
+Ref: "SimulationChickens"."SimulationId" ?>? "Simulations"."Id"
+
+Ref: "SimulationChickens"."ChickenId" ?>? "Chickens"."Id"
+
+Ref: "Simulations"."Id" -? "RaceSimulations"."SimulationId"
