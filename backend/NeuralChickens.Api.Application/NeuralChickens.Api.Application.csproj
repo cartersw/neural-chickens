@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Contracts\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NeuralChickens.Api.Common\NeuralChickens.Api.Common.csproj" />
+    <ProjectReference Include="..\NeuralChickens.Api.Domain\NeuralChickens.Api.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
