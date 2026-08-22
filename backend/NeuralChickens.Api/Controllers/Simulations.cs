@@ -2,11 +2,20 @@
 
 namespace NeuralChickens.Api.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class Simulations : ApiControllerBase
     {
-        public async Task<IActionResult> FirstEndpoint()
+        [HttpGet("{id}/result")]
+        public async Task<IActionResult> GetSimulationResult()
         {
-            return BadRequest();
+            return BadRequest();   
+        }
+
+        [HttpGet("{id}/video")]
+        public async Task<IActionResult> GetSimulationVideo()
+        {
+            throw new NotImplementedException();
         }
     }
 }
