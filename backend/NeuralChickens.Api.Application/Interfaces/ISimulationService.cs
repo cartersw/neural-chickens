@@ -4,6 +4,8 @@ namespace NeuralChickens.Api.Application.Interfaces
 {
     public interface ISimulationService
     {
-        Task<Result> GetSimulationResultAsync(int id);
+        Task<Result> GetSimulationAsync(int id);
+        Task<Result> GetSimulationVideoAsync(int id);
+        Task<Result> StartSimulationAsync(int id);
     }
 }

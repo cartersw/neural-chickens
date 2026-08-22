@@ -5,9 +5,21 @@ namespace NeuralChickens.Api.Application.Services
 {
     public class SimulationService : ISimulationService
     {
-        public async Task<Result> GetSimulationResultAsync(int id)
+
+        public Task<Result> GetSimulationAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+        public async Task<Result> StartSimulationAsync(int id)
         {
             return Result.Success();
         }
+
+        public async Task<Result> GetSimulationVideoAsync(int id)
+        {
+            return Result.Success();
+        }
+
+     
     }
 }
