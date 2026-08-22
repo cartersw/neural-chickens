@@ -1,7 +1,7 @@
 Table Simulations {
   Id int [primary key]
   SimulationType int
-  Videopath varchar
+  VideoPath varchar
 }
 
 Table Chickens {
@@ -14,9 +14,13 @@ Table SimulationChickens{
   ChickenId int
 }
 
-Table RaceSimulations{
+Table RaceSimulationConfiguration{
   SimulationId int [primary key]
+}
 
+Table RaceSimulationResults{
+  SimulationId int [primary key]
+  WinnerId int
 }
 
 
@@ -24,4 +28,8 @@ Ref: "SimulationChickens"."SimulationId" ?>? "Simulations"."Id"
 
 Ref: "SimulationChickens"."ChickenId" ?>? "Chickens"."Id"
 
-Ref: "Simulations"."Id" -? "RaceSimulations"."SimulationId"
+Ref: "RaceSimulationResults"."WinnerId" ?>? "Chickens"."Id"
+
+Ref: "Simulations"."Id" -? "RaceSimulationConfiguration"."SimulationId"
+
+Ref: "Simulations"."Id" -? "RaceSimulationResults"."SimulationId"
