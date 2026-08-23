@@ -1,4 +1,4 @@
-const API_URL = process.env.LOCAL_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_LOCAL_API_URL;
 
 import { Console } from "console";
 import { SimulationInfo } from "../app/types/simulation"
