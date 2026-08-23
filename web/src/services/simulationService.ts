@@ -12,7 +12,6 @@ export async function getSimulationInfo(
 
     console.log(`${API_URL}`);
 
-    console.log("test");
 
     if(!response.ok) {
         const error = await response.json();

@@ -35,7 +35,7 @@ const Page = () => {
             className="bg-white border-2 text-black px-4 py-2 rounded-1g curor-pointer"
           >Get Simulation Info</button>
           {simulation && (
-            <div className ="text-white">
+            <div className ="text-black">
               <p>ID: {simulation.id}</p>
               <p>Status: {simulation.status}</p>
               <p>
