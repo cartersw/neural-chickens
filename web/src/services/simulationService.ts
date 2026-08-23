@@ -6,20 +6,32 @@ import { SimulationInfo } from "../app/types/simulation"
 export async function getSimulationInfo(
         id: number
 ): Promise<SimulationInfo> {
-    const response = await fetch(
-        `${API_URL}/api/simulations/${id}`
-    );
-
-    console.log(`${API_URL}`);
-
-
-    if(!response.ok) {
-        const error = await response.json();
-        
-        throw new Error(
-            error.message ?? "Failure"
+    try{
+        const response = await fetch(
+            `${API_URL}/api/simulations/${id}`
         );
-    }
 
-    return response.json();
+        if(!response.ok) {
+            const contentType = response.headers.get("content-type");
+
+            if(contentType?.includes("application/json")){
+                const error = await response.json();
+
+                throw new Error(
+                    error.message ?? "Request failed."
+                );
+            }
+            throw new Error(
+                `Request failed with status ${response.status}.`
+            );
+            
+        }
+        return await response.json();
+    } catch(error){
+        if(error instanceof Error){
+            throw error;
+        }
+        throw new Error("Something went wrong");
+    }
+    
 }
