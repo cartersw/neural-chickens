@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useState } from "react";
-import { getSimulationInfo } from "../services/simulationService";
+import { fetchSimulationInfo } from '@/actions/simulations';
 import { SimulationInfo } from "./types/simulation";
 
 
@@ -10,11 +10,11 @@ const Page = () => {
   const [simulation, setSimulation] = useState<SimulationInfo | null>(null);
   const [error, setError] = useState("");
 
-  const handleGetSimulation = async () => {
+  const handleFetchSimulationInfo = async () => {
     try{
       setError("");
 
-      const data = await getSimulationInfo(1);
+      const data = await fetchSimulationInfo(1);
 
       setSimulation(data);
     } catch (error){
@@ -31,7 +31,7 @@ const Page = () => {
       <div className="flex justify-center gap-8 w-[90%] p-5">
         
           <button
-            onClick={handleGetSimulation}
+            onClick={handleFetchSimulationInfo}
             className="bg-white border-2 text-black px-4 py-2 rounded-1g curor-pointer"
           >Get Simulation Info</button>
           {simulation && (
