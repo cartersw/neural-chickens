@@ -2,7 +2,7 @@ Table Simulations {
   Id int [primary key]
   SimulationType int
   Status int
-  CreatedAt DateTime
+  RequestedAt DateTime
   StartedAt DateTime
   CompletedAt DateTime?
   VideoPath varchar
