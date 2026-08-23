@@ -1,13 +1,18 @@
-const API_URL = process.env.NEXT_LOCAL_API_URL;
+const API_URL = process.env.LOCAL_API_URL;
 
-import { SimulationInfo } from "../types/simulation"
+import { Console } from "console";
+import { SimulationInfo } from "../app/types/simulation"
 
 export async function getSimulationInfo(
         id: number
 ): Promise<SimulationInfo> {
     const response = await fetch(
-        '${API_URL}/simulations/${id}'
+        `${API_URL}/api/simulations/${id}`
     );
+
+    console.log(`${API_URL}`);
+
+    console.log("test");
 
     if(!response.ok) {
         const error = await response.json();
