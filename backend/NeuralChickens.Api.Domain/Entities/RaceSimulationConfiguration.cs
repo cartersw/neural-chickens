@@ -6,5 +6,8 @@ namespace NeuralChickens.Api.Domain.Entities
 {
     public class RaceSimulationConfiguration
     {
+        public int SimulationId { get; set; }
+
+        public Simulation Simulation { get; set; } = null!;
     }
 }
