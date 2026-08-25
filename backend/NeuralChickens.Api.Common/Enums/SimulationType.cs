@@ -9,5 +9,6 @@ namespace NeuralChickens.Api.Common.Enums
         Race = 0,
         Sumo = 1,
         Balance = 2
+
     }
 }
