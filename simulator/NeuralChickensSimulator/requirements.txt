@@ -1,0 +1,6 @@
+#using python 3.10
+#winget install Python.Python.3.10
+
+python -m pip install --upgrade pip
+python -m pip install mlagents==1.1.0
+python -m pip install "setuptools<81"
