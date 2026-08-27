@@ -20,11 +20,21 @@ Table SimulationChickens{
   Position int
 }
 
+Table FindSimulationConfiguration{
+  SimulationId int [primary key]
+  Speed float
+}
+
+Table FindSimulationResult{
+  SimulationId int [primary key]
+  Score int;
+}
+
 Table RaceSimulationConfiguration{
   SimulationId int [primary key]
 }
 
-Table RaceSimulationResults{
+Table RaceSimulationResult{
   SimulationId int [primary key]
   WinnerId int
 }
