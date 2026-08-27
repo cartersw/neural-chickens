@@ -9,7 +9,7 @@ const Navbar = () => {
                 <ul className="flex items-center gap-10 text-lg text-black">
                     <li>
                         <Link href="/" className="hover:text-gray-300 transition-colors">
-                        Race
+                        Simulate
                         </Link>
                     </li>
                     <li>
