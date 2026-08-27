@@ -12,18 +12,18 @@
 - [ ] Decide how to handle different result types
 
 ## Unity Worker
-- [ ] External simulation configuration
+- [ ] Receive simulation configuration from backend
 - [ ] Headless Unity executable
 - [ ] Simulation job runner
-- [ ] Asynchronous simulation queue
+- [ ] Simulation queue manager
 - [ ] Asynchronous ML-Agent training
-- [ ] Training/result persistence
 - [ ] Agent performance evaluation
 - [ ] Rigidbody agent framework
 - [ ] Customizable limbs
 - [ ] Race environment
 - [ ] Sumo environment
 - [ ] Replay / livestream system
+
 
 POST /api/simulations
 {
@@ -55,7 +55,8 @@ Reward = ...
 
 
 ## Frontend
-- [ ] 
+- [ ] About
+- [ ] Chickens page (chicken history and statistics view)
 
 
 ## Misc
