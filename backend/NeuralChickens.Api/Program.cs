@@ -1,3 +1,4 @@
+using Microsoft.Data.SqlClient;
 using NeuralChickens.Api.Application.Interfaces;
 using NeuralChickens.Api.Application.Services;
 
@@ -20,6 +21,16 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod();
     });
 });
+
+
+var connectionString = builder.Configuration.GetConnectionString("NeuralChickensLocalDb");
+
+var connectionBuilder = new SqlConnectionStringBuilder(connectionString);
+
+if (builder.Environment.IsEnvironment("Testing"))
+{
+    connectionBuilder.InitialCatalog = "NeuralChickensTestDb";
+}
 
 var app = builder.Build();
 
