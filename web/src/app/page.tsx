@@ -28,12 +28,13 @@ const Page = () => {
 
   return (
     <main className="min-h-screen flex items-center justify-center pt-18">
-      <div className="flex justify-center gap-8 w-[90%] p-5">
-        
+      <div className="flex flex-col items-start gap-4 w-[min(60vh,90vw)] p-5">
+          <div className="w-full aspect-square rounded-lg border-2 border-foreground/15 bg-foreground/5" />
+
           <button
             onClick={handleGetSimulationInfo}
-            className="bg-white border-2 text-black px-4 py-2 rounded-1g curor-pointer"
-          >Get Simulation Info</button>
+            className="bg-white border-2 text-black px-4 py-2 rounded-lg cursor-pointer"
+          >Request Simulation</button>
           {simulation && (
             <div className ="text-black">
               <p>ID: {simulation.id}</p>

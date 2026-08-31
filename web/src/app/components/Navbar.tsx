@@ -7,13 +7,12 @@ import { GiChicken } from 'react-icons/gi'
 type Tab = {
     href: string
     label: string
-    icon: IconType
 }
 
 const tabs: Tab[] = [
-    { href: '/', label: 'Simulate', icon: FiPlay },
-    { href: '/chickens', label: 'Chickens', icon: GiChicken },
-    { href: '/about', label: 'About', icon: FiInfo },
+    { href: '/', label: 'Simulate'},
+    { href: '/chickens', label: 'Chickens' },
+    { href: '/about', label: 'About' },
 ]
 
 const Navbar = () => {
@@ -28,13 +27,13 @@ const Navbar = () => {
                 </Link>
 
                 <ul className="flex items-center gap-1">
-                    {tabs.map(({ href, label, icon: Icon }) => (
+                    {tabs.map(({ href, label}) => (
                         <li key={href}>
                             <Link
                                 href={href}
                                 className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold text-foreground transition-colors hover:bg-brand-soft"
                             >
-                                <Icon className="text-base opacity-60" />
+                               
                                 {label}
                             </Link>
                         </li>
