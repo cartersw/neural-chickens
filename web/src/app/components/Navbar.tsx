@@ -24,7 +24,7 @@ const Navbar = () => {
                     href="/"
                     className="text-xl font-bold text-foreground"
                 >
-                    Neural-Chickens
+                    Neural Chickens
                 </Link>
 
                 <ul className="flex items-center gap-1">
@@ -32,7 +32,7 @@ const Navbar = () => {
                         <li key={href}>
                             <Link
                                 href={href}
-                                className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold text-foreground/75 transition-colors hover:bg-brand-soft hover:text-foreground"
+                                className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold text-foreground transition-colors hover:bg-brand-soft"
                             >
                                 <Icon className="text-base opacity-60" />
                                 {label}
