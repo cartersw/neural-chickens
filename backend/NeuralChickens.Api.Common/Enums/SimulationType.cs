@@ -6,9 +6,10 @@ namespace NeuralChickens.Api.Common.Enums
 {
     public enum SimulationType
     {
-        Race = 0,
-        Sumo = 1,
-        Balance = 2
+        Find = 0,
+        Race = 1,
+        Sumo = 2,
+        Balance = 3
 
     }
 }
