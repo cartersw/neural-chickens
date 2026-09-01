@@ -1,7 +1,8 @@
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using NeuralChickens.Api.Application.Interfaces;
 using NeuralChickens.Api.Application.Services;
-
+using NeuralChickens.Api.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,25 @@ if (builder.Environment.IsEnvironment("Testing"))
 {
     connectionBuilder.InitialCatalog = "NeuralChickensTestDb";
 }
+
+builder.Services.AddDbContextPool<NeuralChickensDbContext>(options =>
+{
+    options.UseSqlServer(connectionBuilder.ConnectionString, sqlOptions =>
+    {
+        sqlOptions.MigrationsAssembly("NeuralChickens.Api.Domain");
+        sqlOptions.CommandTimeout(30);
+        sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 3,
+            maxRetryDelay: TimeSpan.FromSeconds(5),
+            errorNumbersToAdd: null
+            );
+    });
+    if (builder.Environment.IsDevelopment())
+    {
+        options.EnableSensitiveDataLogging();
+        options.EnableDetailedErrors();
+    }
+}, poolSize: 128);
 
 var app = builder.Build();
 
