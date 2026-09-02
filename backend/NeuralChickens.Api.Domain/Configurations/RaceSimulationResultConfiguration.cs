@@ -11,7 +11,12 @@ namespace NeuralChickens.Api.Domain.Configurations
     {
         public void Configure(EntityTypeBuilder<RaceSimulationResult> builder)
         {
+            builder.HasKey(c => c.SimulationId);
 
+            builder.HasOne(c => c.Simulation)
+                .WithOne()
+                .HasForeignKey<RaceSimulationResult>(c => c.SimulationId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
