@@ -8,7 +8,7 @@ namespace NeuralChickens.Api.Domain.Entities
     {
         public int SimulationId { get; set; }
 
-        public int ChickenId { get; set; }
+        public int WinnerChickenId { get; set; }
 
         public Simulation Simulation { get; set; } = null!;
 
