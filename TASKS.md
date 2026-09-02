@@ -6,9 +6,10 @@
 - [x] Simulation Entity Class
 - [x] Chicken Entity Class
 - [x] Simulation Chicken Entity Class
-- [ ] Composite PK configuration Simulation Chicken 
-- [ ] Create dbcontext
-- [ ] First db migration
+- [x] Composite PK configuration Simulation Chicken 
+- [x] Create dbcontext
+- [x] First db migration
+- [ ] Create find simulation endpoint
 - [ ] Decide how to handle different result types
 
 ## Unity Worker
@@ -24,7 +25,7 @@
 - [ ] Sumo environment
 - [ ] Replay / livestream system
 
-
+```text
 POST /api/simulations
 {
     "targetX": 8,
@@ -52,7 +53,7 @@ Simulation 1
 Status = Completed
 ModelPath = ...
 Reward = ...
-
+```
 
 ## Frontend
 - [ ] About
