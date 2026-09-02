@@ -1,10 +1,17 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using NeuralChickens.Api.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace NeuralChickens.Api.Domain.Configurations
 {
-    internal class RaceSimulationResultConfiguration
+    public class RaceSimulationResultConfiguration : IEntityTypeConfiguration<RaceSimulationResult>
     {
+        public void Configure(EntityTypeBuilder<RaceSimulationResult> builder)
+        {
+
+        }
     }
 }
