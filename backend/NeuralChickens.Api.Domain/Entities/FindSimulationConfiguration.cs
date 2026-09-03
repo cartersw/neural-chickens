@@ -8,7 +8,6 @@ namespace NeuralChickens.Api.Domain.Entities
     public class FindSimulationConfiguration
     {
         public int SimulationId { get; set; }
-
         public Simulation Simulation { get; set; } = null!;
 
         [Required]

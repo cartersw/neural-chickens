@@ -33,6 +33,12 @@ namespace NeuralChickens.Api.Controllers
 
             return ToActionResult(result);
         }
+
+        [HttpPost("/find")]
+        public async Task<IActionResult> PostFindSimulation(PostFindSimulationDto postFindSimulationDto)
+        {
+            return Ok();
+        }
         
     }
 }

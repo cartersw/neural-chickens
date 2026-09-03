@@ -1,51 +1,53 @@
 Table Simulations {
-  Id int [primary key]
-  SimulationType int
-  Status int
-  RequestedAt DateTime
-  StartedAt DateTime
-  CompletedAt DateTime?
-  VideoPath varchar
+  Id int [pk, increment]
+  SimulationType int [not null, note: 'Find=0, Race=1, Sumo=2, Balance=3']
+  SimulationStatus int [not null, note: 'Requested=0, Creating=1, Ready=2, InProgress=3, Completed=4']
+  Contestants int [not null]
+  RequestedAt datetime [not null]
+  StartedAt datetime
+  CompletedAt datetime
+  VideoPath nvarchar [not null]
 }
 
 Table Chickens {
-  Id int [primary key]
-  Name string
-  Wins int
+  Id int [pk, increment]
+  Name nvarchar [not null]
+  Wins int [not null]
 }
 
-Table SimulationChickens{
-  SimulationId int
-  ChickenId int
-  Position int
+Table SimulationChickens {
+  SimulationId int [not null]
+  ChickenId int [not null]
+
+  indexes {
+    (SimulationId, ChickenId) [pk]
+    ChickenId
+  }
 }
 
-Table FindSimulationConfiguration{
-  SimulationId int [primary key]
-  Speed float
+Table FindSimulationConfigurations {
+  SimulationId int [pk]
+  Speed float [not null]
 }
 
-Table FindSimulationResult{
-  SimulationId int [primary key]
-  Score int;
+Table FindSimulationResults {
+  SimulationId int [pk]
+  Wins int [not null]
 }
 
-Table RaceSimulationConfiguration{
-  SimulationId int [primary key]
+Table RaceSimulationConfigurations {
+  SimulationId int [pk]
 }
 
-Table RaceSimulationResult{
-  SimulationId int [primary key]
-  WinnerId int
+Table RaceSimulationResults {
+  SimulationId int [pk]
+  WinnerChickenId int
 }
 
+Ref: SimulationChickens.SimulationId > Simulations.Id [delete: cascade]
+Ref: SimulationChickens.ChickenId > Chickens.Id [delete: restrict]
 
-Ref: "SimulationChickens"."SimulationId" ?>? "Simulations"."Id"
-
-Ref: "SimulationChickens"."ChickenId" ?>? "Chickens"."Id"
-
-Ref: "RaceSimulationResults"."WinnerId" ?>? "Chickens"."Id"
-
-Ref: "Simulations"."Id" -? "RaceSimulationConfiguration"."SimulationId"
-
-Ref: "Simulations"."Id" -? "RaceSimulationResults"."SimulationId"
+Ref: FindSimulationConfigurations.SimulationId - Simulations.Id [delete: cascade]
+Ref: FindSimulationResults.SimulationId - Simulations.Id [delete: cascade]
+Ref: RaceSimulationConfigurations.SimulationId - Simulations.Id [delete: cascade]
+Ref: RaceSimulationResults.SimulationId - Simulations.Id [delete: cascade]
