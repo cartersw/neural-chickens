@@ -9,6 +9,7 @@ namespace NeuralChickens.Api.Application.DTOs.Simulation
         public int Id { get; init; }
         public string SimulationType { get; init; }
         public string Status { get; init; }
+        public int Contestants { get; set; }
         public DateTime RequestedAt { get; init; }
         public DateTime? CreatedAt { get; init; }
         public DateTime? StartedAt { get; init; }

@@ -35,7 +35,7 @@ namespace NeuralChickens.Api.Controllers
         }
 
         [HttpPost("/find")]
-        public async Task<IActionResult> PostFindSimulation(PostFindSimulationDto postFindSimulationDto)
+        public async Task<ActionResult<GetSimulationDto>> PostFindSimulation(PostFindSimulationDto postFindSimulationDto)
         {
             var result = await simulationService.CreateFindSimulationAsync(postFindSimulationDto);
 
