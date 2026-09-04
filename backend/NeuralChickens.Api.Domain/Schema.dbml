@@ -1,5 +1,6 @@
 Table Simulations {
   Id int [pk, increment]
+  Name nvarchar [not null]
   SimulationType int [not null, note: 'Find=0, Race=1, Sumo=2, Balance=3']
   SimulationStatus int [not null, note: 'Requested=0, Creating=1, Ready=2, InProgress=3, Completed=4']
   Contestants int [not null]
