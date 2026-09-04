@@ -32,6 +32,11 @@ namespace NeuralChickens.Api.Application.Services
             return Result.Success();
         }
 
-     
+        public async Task<Result> CreateFindSimulationAsync(PostFindSimulationDto postFindSimulationDto)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }
