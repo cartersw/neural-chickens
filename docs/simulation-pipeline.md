@@ -71,17 +71,20 @@ Do this before writing any worker code; each item is a known trap.
   on the server.
 - **Write a trainer YAML.** None exists in the repo. Create `simulator/config/find.yaml` with a PPO
   block and get `mlagents-learn` training against the Editor first, then against a build.
-- **Spike the runtime-brain problem.** Unity's Inference Engine cannot load `.onnx` at runtime —
-  ONNX→`.sentis` conversion is Editor-only, and `BehaviorParameters.SetModel` wants a `ModelAsset`,
-  not a `Model`. Since a new brain is generated per simulation, resolve this early. Three candidate
-  routes, in order of preference:
-  1. Worker invokes `Unity.exe -batchmode -quit -executeMethod ModelPacker.Serialize` post-training
-     to emit a `.sentis`, then playback loads it from disk with `ModelLoader.Load(path)` and drives
-     inference manually. The net is 6 observations → 2 continuous actions, so hand-rolling the
-     inference loop is genuinely small.
-  2. [onnxruntime-unity](https://github.com/asus4/onnxruntime-unity) to load `.onnx` directly at
-     runtime, bypassing ML-Agents inference.
-  3. Bake models as assets — rejected, models are dynamic.
+- **Clarify the runtime-brain problem (you *can* reuse trained agents).** Training produces an
+  `.onnx` file. That *is* the saved brain. In the Unity Editor, you drop it onto
+  `BehaviorParameters` and the agent runs in Inference mode — that is the normal ML-Agents workflow
+  and works today. The spike is only about the *automated* path: a Worker that keeps producing new
+  brains, and a *standalone playback build* that must load whichever `.onnx` the Worker just wrote,
+  without a human opening the Editor. Unity's Inference Engine will not load a raw `.onnx` from disk
+  at runtime (ONNX→`.sentis` conversion is Editor-only), and `BehaviorParameters.SetModel` wants a
+  `ModelAsset`. For Phase 1 (train + save the file + store the path), this does not block you. For
+  Phase 2 (auto-play any trained brain), pick one of:
+  1. After training, run `Unity.exe -batchmode -executeMethod ModelPacker.Serialize` to convert
+     `.onnx` → `.sentis`, then load that file in the playback build.
+  2. [onnxruntime-unity](https://github.com/asus4/onnxruntime-unity) to run the `.onnx` directly.
+  3. For early demos only: import the `.onnx` in the Editor by hand — fine for learning, not for
+     the production Worker.
 
 ## Phase 1 — Training pipeline (first milestone)
 
@@ -222,7 +225,8 @@ training time rather than a clean error.
 - [ ] Commit `Packages/manifest.json`; pin `com.unity.ml-agents` and the matching Python `mlagents`
 - [ ] Set up a Python 3.10 venv on the server
 - [ ] Write `simulator/config/find.yaml` and train against the Editor, then a headless build
-- [ ] SPIKE: resolve runtime ONNX loading (`.sentis` batchmode serialization, or onnxruntime-unity)
+- [ ] SPIKE (Phase 2 only): automate loading a Worker-produced brain in a standalone build
+      (batchmode `.sentis` conversion, or onnxruntime-unity). Editor drag-and-drop still works.
 
 ### Phase 1 — Training pipeline
 - [ ] Extend `SimulationStatus`, add training artifact fields, add `SimulationBroadcast`, drop `VideoPath`, migrate
