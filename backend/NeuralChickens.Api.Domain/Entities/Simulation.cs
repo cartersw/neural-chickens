@@ -8,9 +8,9 @@ namespace NeuralChickens.Api.Domain.Entities
 {
     public class Simulation
     {
+        public int Id { get; set; }
         [Required]
         public string Name { get; set; } = string.Empty;
-        public int Id { get; set; }
         [Required]
         public SimulationType SimulationType { get; set; }
         [Required]
