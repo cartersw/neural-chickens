@@ -5,42 +5,147 @@ ML-Agents brain for them in Unity, and later plays them back as a live video str
 
 ## Target architecture
 
+Two separate jobs. Training never streams. Live watch never trains. Both run on the GPU box;
+the Worker is its own process and is the only thing that starts Unity.
+
 ```mermaid
-flowchart TB
-    subgraph vercel [Vercel]
-        Web["Next.js 16 / React 19"]
+flowchart LR
+    subgraph trainClients [Request]
+        WebTrain[Next.js on Vercel]
     end
-    subgraph home [Self-hosted Windows box, NVIDIA GPU]
-        Api["NeuralChickens.Api<br/>ASP.NET Core 10"]
-        Db[("SQL Server<br/>Docker")]
-        Worker["NeuralChickens.Worker<br/>BackgroundService"]
-        Trainer["Unity headless build<br/>+ mlagents-learn"]
-        Player["Unity playback build<br/>runs trained brain"]
-        FF["FFmpeg h264_nvenc"]
-        MTX["MediaMTX<br/>record + LL-HLS + WHEP"]
+    subgraph trainDoor [API door]
+        TunnelTrain[Cloudflare Tunnel]
     end
-    subgraph edge [Ingress]
-        CFT["Cloudflare Tunnel<br/>JSON API only"]
-        VPS["VPS relay<br/>video only"]
+    subgraph trainHome [GPU box]
+        ApiTrain[NeuralChickens.Api]
+        DbTrain[(SQL Server)]
+        WorkerTrain[NeuralChickens.Worker]
+        Trainer[Unity trainer plus mlagents-learn]
+        Onnx[".onnx on disk"]
     end
 
-    Web -->|REST| CFT --> Api
-    Api --> Db
-    Worker --> Db
-    Worker -->|spawn| Trainer
-    Worker -->|spawn| Player
-    Trainer -->|".onnx"| Worker
-    Player -->|raw frames| FF -->|SRT| MTX
-    MTX -->|webhooks| Api
-    MTX -->|"SRT relay"| VPS
-    VPS -->|LL-HLS| Web
+    WebTrain -->|"POST create / GET status"| TunnelTrain --> ApiTrain
+    ApiTrain -->|"insert Requested, read status"| DbTrain
+    WorkerTrain -->|"poll Requested, write Training then Trained"| DbTrain
+    WorkerTrain -->|spawn| Trainer
+    Trainer --> Onnx
+    Onnx -->|"Worker copies file"| WorkerTrain
+    WorkerTrain -->|"save ModelPath"| DbTrain
 ```
 
-**Why the ingress is split:** Cloudflare Tunnel is fine for the JSON API, but it cannot carry
-WebRTC (no UDP for public hostnames) and Cloudflare's
-[Service-Specific Terms](https://www.cloudflare.com/service-specific-terms-application-services/)
-prohibit serving video over the CDN on Free/Pro/Business plans. Video needs either a ~$5/mo VPS
-relay or a direct port-forward. Test for CGNAT before assuming port-forwarding is available.
+```mermaid
+flowchart LR
+    subgraph watchClients [Watch]
+        WebWatch[Next.js on Vercel]
+    end
+    subgraph watchDoors [Public doors]
+        TunnelWatch[Cloudflare Tunnel JSON]
+        VpsMtx[VPS MediaMTX LL-HLS]
+    end
+    subgraph watchHome [GPU box]
+        ApiWatch[NeuralChickens.Api]
+        DbWatch[(SQL Server)]
+        WorkerWatch[NeuralChickens.Worker]
+        Player[Unity playback]
+        Ffmpeg[FFmpeg NVENC]
+        HomeMtx[Home MediaMTX]
+    end
+
+    WebWatch -->|"POST start watch"| TunnelWatch --> ApiWatch
+    ApiWatch -->|"write watch request"| DbWatch
+    WorkerWatch -->|"poll watch request"| DbWatch
+    WorkerWatch -->|"read ModelPath"| DbWatch
+    WorkerWatch -->|spawn| Player
+    Player -->|frames| Ffmpeg
+    Ffmpeg -->|SRT| HomeMtx
+    HomeMtx -->|"recording path"| ApiWatch
+    ApiWatch --> DbWatch
+    HomeMtx -->|"one SRT copy"| VpsMtx
+    VpsMtx -->|LL-HLS| WebWatch
+```
+
+**Two different “spawns” (do not merge them):**
+
+1. **Training spawn** — Worker sees a row in `Requested`, claims it, starts `mlagents-learn` + the headless Unity training build. When that process exits, the Worker reads the `.onnx` from disk and marks the simulation `Trained`. No video, no viewers.
+2. **Playback spawn** — Later, when a user or the API asks to *watch* a trained simulation, the Worker (or a playback job it owns) starts the Unity *playback* build with that brain, pipes frames through FFmpeg → MediaMTX, and records a `SimulationBroadcast`. Training finishing does **not** automatically go live; live play is on demand.
+
+Same Worker process can own both loops: poll for training jobs, and poll (or receive) for “start broadcast for simulation X” requests.
+
+## Glossary — how the live video path works
+
+Think of two separate “doors” from the public internet into your home server:
+
+| Door | Carries | How it gets to your house |
+|------|---------|---------------------------|
+| API door | JSON (create sim, get status, “please start stream”) | Cloudflare Tunnel |
+| Video door | Actual video bytes for the browser player | VPS relay (or port-forward) |
+
+Your Next.js site on Vercel cannot talk to `localhost` on your PC. Something has to expose your home box. We use **two different something’s** because Cloudflare is great for APIs and a bad fit for video.
+
+### MediaMTX
+
+A single program (one `.exe` on Windows) that acts as a **mini Twitch for your house**.
+
+- One process pushes video *into* it (FFmpeg encoding Unity’s frames).
+- Many browsers can pull that same stream *out* of it.
+- While live, it can also **record** the stream to a file on disk (your VOD / `SimulationBroadcast` recording).
+
+You do not write a streaming server yourself. MediaMTX is that server.
+
+### FFmpeg (+ NVENC)
+
+Unity produces raw frames. FFmpeg compresses them into H.264 video. **NVENC** is the encoder chip on your NVIDIA GPU, so compression is mostly free relative to training. FFmpeg then pushes that compressed stream into MediaMTX (often over **SRT**, a reliable “send video from A to B” protocol).
+
+### HLS and LL-HLS
+
+**HLS** (HTTP Live Streaming) is how most websites play live video: the server chops the stream into tiny file segments; the browser downloads them in order (like a slideshow of 1–2 second video clips). Normal HLS is often **10–30 seconds** behind live.
+
+**LL-HLS** (Low-Latency HLS) is the same idea with smaller pieces, so the delay is usually **~2–5 seconds**. In the browser you typically use the **`hls.js`** library to play it (Safari can do HLS natively).
+
+This is the “ship first” path: simple, works through normal HTTPS, good enough for watching a sim.
+
+### WHEP (and WebRTC)
+
+**WebRTC** is the tech behind Zoom/Discord: peer video with much lower delay (**often under a second**).
+
+**WHEP** is a small standard for “browser, please *watch* this WebRTC stream” (HTTP request to get the stream). MediaMTX can serve WHEP as well as LL-HLS from the **same** incoming encode.
+
+Optional later if you want snappier video or interactive control. Harder to expose from home (needs UDP / careful networking).
+
+### Ingress
+
+**Ingress** just means “how traffic enters your system from the public internet.” In the diagram, the `edge` box is that entry layer — not a product named Ingress.
+
+### Cloudflare Tunnel (JSON API only)
+
+Your API runs at home. Vercel users need `https://something` that reaches it.
+
+**Cloudflare Tunnel** (`cloudflared`) creates an **outbound** connection from your PC to Cloudflare. Cloudflare then gives you a public URL. No need to open router ports for the API. Requests like `GET /api/simulations/5` go:
+
+`Browser → Cloudflare → Tunnel → your ASP.NET API`
+
+“**JSON API only**” means: use this door for REST/JSON. Do **not** push the live video through it. Cloudflare’s free/cheap CDN terms discourage serving video that way, and WebRTC/UDP does not work well through the tunnel anyway.
+
+### VPS relay (video)
+
+A **VPS** is a cheap always-on cloud computer with a real public IP (~$5/mo).
+
+**Relay** means: your home MediaMTX sends **one** copy of the stream up to MediaMTX on the VPS; viewers worldwide pull from the VPS. Your home upload stays ~one stream no matter how many people watch.
+
+Alternative: port-forward video ports on your home router (free, but depends on your ISP; **CGNAT** can make it impossible). The plan prefers the VPS when you want a reliable public watch URL.
+
+### End-to-end picture (one live watch)
+
+Matches the second diagram: JSON goes through the tunnel to the API; the Worker polls the DB;
+video never uses the tunnel.
+
+```
+Browser  --JSON start watch-->  Cloudflare Tunnel  -->  Api  -->  SQL
+Worker polls SQL, starts Unity playback
+Unity  -->  FFmpeg  -->  home MediaMTX  --one SRT copy-->  VPS MediaMTX
+Browser  --LL-HLS-->  VPS MediaMTX
+home MediaMTX recording path  -->  Api  -->  SQL
+```
 
 ## Key decisions
 
