@@ -3,9 +3,9 @@
     public enum SimulationStatus
     {
         Requested = 0,
-        Creating = 1,
-        Ready = 2,
-        InProgress = 3,
-        Completed = 4
+        Training = 1,
+        Trained = 2,
+        Failed = 3,
+        Cancelled = 4
     }
 }
