@@ -204,7 +204,7 @@ flowchart TB
 | **8 — Gameplay** | Race/Balance/Sumo and expanded bodies each pass physics, learning, scoring and recording checks. |
 | **9 — Measured growth** | Analytics/capacity additions show measured benefit and bounded cost. |
 
-Stage 8 can follow Stage 5 alongside media/public work. Stage 4 API/UI and Worker work can parallelize after contracts settle. Synthetic media tests can precede Unity capture. Detailed actions remain in [TASKS.md](../TASKS.md).
+Stage 8 can follow Stage 5 alongside media/public work. Stage 4 API/UI and Worker work can parallelize after contracts settle. Synthetic media tests can precede Unity capture. Track milestones in [TASKS.md](../TASKS.md).
 
 ## Later, when justified
 

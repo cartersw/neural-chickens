@@ -1,6 +1,6 @@
 ﻿# Technology and implementation map
 
-Researched 2026-09-11 for distinct 2D bodies, independently trained chickens and the existing Windows/.NET/SQL/Next.js stack. Recommendations remain subject to compatibility/performance proofs. See the [pipeline](simulation-pipeline.md) for architecture and [TASKS.md](../TASKS.md) for acceptance gates.
+Researched 2026-09-11 for distinct 2D bodies, independently trained chickens and the existing Windows/.NET/SQL/Next.js stack. Recommendations remain subject to compatibility/performance proofs. See the [pipeline](simulation-pipeline.md) for flow and completion criteria, and [TASKS.md](../TASKS.md) for milestones.
 
 **Paths are proposed unless already present.** Aliases:
 
