@@ -1,6 +1,12 @@
 # Neural Chickens
 https://neural-chickens.vercel.app/
 
+## Project plan
+
+- [Simulation pipeline, architecture and development stages](docs/simulation-pipeline.md)
+- [Researched technology choices and implementation locations](docs/technology-map.md)
+- [Development backlog and completed foundations](TASKS.md)
+
 ## Setup
 
 
