@@ -4,13 +4,13 @@
 
 [Project flow and completion criteria](docs/simulation-pipeline.md) · [Tools and locations](docs/technology-map.md)
 
-## Existing foundations
+## 0
 
 - [x] Backend, database and simulation-request scaffolding.
 - [x] Unity Find prototype and project setup.
 - [x] Website layout and API request scaffolding.
 
-## Foundations — Stages 0–1
+## Foundation
 
 - [ ] Stabilize project setup, existing data and simulation rules.
 - [ ] Train and evaluate a basic Find agent.
@@ -40,4 +40,3 @@
 - [ ] Add Race, Balance, Sumo and broader body customization.
 - [ ] Improve performance analysis and capacity as needed.
 
-Work from top to bottom. Prove individual learning and model playback before automation; future improvements follow the first release.
