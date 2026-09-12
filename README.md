@@ -8,7 +8,12 @@ https://neural-chickens.vercel.app/
 - [Development backlog and completed foundations](TASKS.md)
 
 ## Setup
-
+NeuralChickensSimulator
+```bash
+venv\Scripts\activate
+mlagents-learn --run-id=test1
+```
+Press play on Unity Project
 
 ### Backend
 ```bash
