@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class MoveToGoalAgent : Agent 
 {
     [SerializeField] private Transform targetTransform;
-
+    [SerializeField] private float speed;
     public override void OnEpisodeBegin()
     {
         transform.localPosition = Vector3.zero;
@@ -21,9 +21,7 @@ public class MoveToGoalAgent : Agent
         float moveX = actions.ContinuousActions[0];
         float moveY = actions.ContinuousActions[1];
 
-        float moveSpeed = 2f;
-
-        transform.localPosition += new Vector3(moveX, moveY, 0) * Time.deltaTime * moveSpeed;
+        transform.localPosition += new Vector3(moveX, moveY, 0) * Time.deltaTime * speed;
         Debug.Log(actions.ContinuousActions[0]);
         Debug.Log(actions.ContinuousActions[1]);
     }
@@ -32,7 +30,6 @@ public class MoveToGoalAgent : Agent
     {
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
 
-        float speed = 2f;
 
         float horizontal = 0f;
         float vertical = 0f;
