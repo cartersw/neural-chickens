@@ -16,6 +16,21 @@ public class MoveToGoalAgent : Agent
         );
 
         transform.localPosition = Vector3.zero;
+
+
+        Vector3 targetPosition;
+
+        do
+        {
+            targetPosition = new Vector3(
+                Random.Range(-8f, 8f),
+                Random.Range(-2.5f, 2.5f),
+                0f
+                );
+        }
+        while (targetPosition.sqrMagnitude < 4f);
+
+        targetTransform.localPosition = targetPosition;
     }
     public override void CollectObservations(VectorSensor sensor)
     {
@@ -24,6 +39,8 @@ public class MoveToGoalAgent : Agent
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
+        AddReward(-0.0002f);
+
         float moveX = actions.ContinuousActions[0];
         float moveY = actions.ContinuousActions[1];
 
