@@ -20,8 +20,8 @@ Content-Type: application/json
 
 {
   "name": "Initial test insert",
-  "contestants": 4,
-  "speed": 2.5
+  "contestants": 5,
+  "speed": 5
 }
 
 ###

@@ -6,9 +6,15 @@ using UnityEngine.InputSystem;
 public class MoveToGoalAgent : Agent 
 {
     [SerializeField] private Transform targetTransform;
-    [SerializeField] private float speed;
+    [SerializeField] private float speed = 3f;
+
+
     public override void OnEpisodeBegin()
     {
+        speed = Academy.Instance.EnvironmentParameters.GetWithDefault(
+            "speed", speed
+        );
+
         transform.localPosition = Vector3.zero;
     }
     public override void CollectObservations(VectorSensor sensor)
@@ -22,8 +28,8 @@ public class MoveToGoalAgent : Agent
         float moveY = actions.ContinuousActions[1];
 
         transform.localPosition += new Vector3(moveX, moveY, 0) * Time.deltaTime * speed;
-        Debug.Log(actions.ContinuousActions[0]);
-        Debug.Log(actions.ContinuousActions[1]);
+        //Debug.Log(actions.ContinuousActions[0]);
+        //Debug.Log(actions.ContinuousActions[1]);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
