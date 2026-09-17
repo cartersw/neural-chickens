@@ -1,12 +1,6 @@
 # Neural Chickens
 https://neural-chickens.vercel.app/
 
-## Project plan
-
-- [Simulation pipeline, architecture and development stages](docs/simulation-pipeline.md)
-- [Researched technology choices and implementation locations](docs/technology-map.md)
-- [Development backlog and completed foundations](TASKS.md)
-
 ## Setup
 NeuralChickensSimulator
 ```bash
@@ -16,6 +10,7 @@ mlagents-learn --run-id=test1
 Press play on Unity Project
 
 ### Backend
+
 ```bash
 dotnet tool install --global dotnet-ef
 ```
@@ -41,4 +36,40 @@ Migrations:
 ```bash
 dotnet ef migrations add InitialCreate --project NeuralChickens.Api.Domain --startup-project NeuralChickens.Api
 dotnet ef database update --project NeuralChickens.Api.Domain --startup-project NeuralChickens.Api
+```
+
+Start Training Queue:
+```bash
+dotnet run --project backend/NeuralChickens.Api --launch-profile http
+```
+Test Find Simulation:
+```bash
+$simulation = Invoke-RestMethod -Method Post `
+  -Uri http://localhost:5296/api/simulations/find `
+  -ContentType application/json `
+  -Body '{"name":"Find test","contestants":1,"speed":4.5}'
+
+$simulation
+```
+
+
+### Simulator
+
+Unity Setup:
+In unity add and open: 
+simulator/NeuralChickensSimulator
+
+Build the player at:
+simulator/NeuralChickensSimulator/Builds/Find/NeuralChickens.exe
+
+Venv Setup:
+```bash
+py -3.10 -m venv simulator/NeuralChickensSimulator/venv
+
+$trainingPython = "./simulator/NeuralChickensSimulator/venv/Scripts/python.exe"
+
+& $trainingPython -m pip install --upgrade pip "setuptools<81"
+& $trainingPython -m pip install "mlagents==1.1.0" "torch==2.1.1"
+
+& $trainingPython -m mlagents.trainers.learn --help
 ```
