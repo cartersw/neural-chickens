@@ -1,5 +1,7 @@
 ﻿using NeuralChickens.Api.Application.DTOs.Simulation;
 using NeuralChickens.Api.Application.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using NeuralChickens.Api.Common.Constants;
 using NeuralChickens.Api.Common.Enums;
 using NeuralChickens.Api.Common.Results;
 using NeuralChickens.Api.Domain;
@@ -12,15 +14,20 @@ namespace NeuralChickens.Api.Application.Services
 
         public async Task<Result<GetSimulationDto>> GetSimulationAsync(int id)
         {
+            var simulation = await context.Simulations.AsNoTracking().SingleOrDefaultAsync(s => s.Id == id);
+            if (simulation is null)
+                return Result<GetSimulationDto>.Failure(new Error(ErrorCodes.NotFound, "Simulation not found."));
+
             var getSimulationDto = new GetSimulationDto
             {
-                Id = 5,
-                SimulationType = "Race",
-                Status = "Completed",
-                RequestedAt = DateTime.UtcNow,
-                CreatedAt = DateTime.UtcNow,
-                StartedAt = DateTime.UtcNow,
-                CompletedAt = DateTime.UtcNow
+                Id = simulation.Id,
+                Name = simulation.Name,
+                Contestants = simulation.Contestants,
+                SimulationType = simulation.SimulationType.ToString(),
+                Status = simulation.SimulationStatus.ToString(),
+                RequestedAt = simulation.RequestedAt,
+                StartedAt = simulation.StartedAt,
+                CompletedAt = simulation.CompletedAt
             };
 
             return Result<GetSimulationDto>.Success(getSimulationDto);

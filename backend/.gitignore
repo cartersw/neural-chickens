@@ -5,6 +5,7 @@
 
 # dotenv files
 .env
+TrainingRuns/
 
 # User-specific files
 *.rsuser
