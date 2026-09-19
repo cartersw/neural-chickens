@@ -24,6 +24,7 @@ namespace NeuralChickens.Api.Domain.Entities
         public DateTime? CompletedAt { get; set; }
         public string VideoPath { get; set; } = string.Empty;
 
+
         public IList<SimulationChicken> SimulationChickens { get; set; } = [];
 
     }
