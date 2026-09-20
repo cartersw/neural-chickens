@@ -15,6 +15,7 @@ namespace NeuralChickens.Api.Domain
         }
 
         public DbSet<Chicken> Chickens { get; set; }
+        public DbSet<ChickenBrain> ChickenBrains { get; set; }
         public DbSet<Simulation> Simulations { get; set; }
         public DbSet<SimulationChicken> SimulationChickens { get; set; }
         public DbSet<RaceSimulationConfiguration> RaceSimulationConfigurations { get; set; }

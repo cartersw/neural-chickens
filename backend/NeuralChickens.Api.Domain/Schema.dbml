@@ -2,7 +2,7 @@ Table Simulations {
   Id int [pk, increment]
   Name nvarchar [not null]
   SimulationType int [not null, note: 'Find=0, Race=1, Sumo=2, Balance=3']
-  SimulationStatus int [not null, note: 'Requested=0, Creating=1, Ready=2, InProgress=3, Completed=4']
+  SimulationStatus int [not null, note: 'Requested=0, Training=1, Trained=2, Failed=3, Cancelled=4']
   Contestants int [not null]
   RequestedAt datetime [not null]
   StartedAt datetime
@@ -14,6 +14,18 @@ Table Chickens {
   Id int [pk, increment]
   Name nvarchar [not null]
   Wins int [not null]
+}
+
+Table ChickenBrain {
+  Id int [pk, increment]
+  SimulationType int [not null, note: 'Find=0, Race=1, Sumo=2, Balance=3']
+  BrainPath nvarchar [not null]
+  CreatedAt datetime [not null]
+  ChickenId int [not null]
+
+  indexes {
+    (ChickenId, SimulationType, CreatedAt)
+  }
 }
 
 Table SimulationChickens {
@@ -44,6 +56,8 @@ Table RaceSimulationResults {
   SimulationId int [pk]
   WinnerChickenId int
 }
+
+Ref: ChickenBrain.ChickenId > Chickens.Id [delete: cascade]
 
 Ref: SimulationChickens.SimulationId > Simulations.Id [delete: cascade]
 Ref: SimulationChickens.ChickenId > Chickens.Id [delete: restrict]

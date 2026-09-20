@@ -9,5 +9,7 @@ namespace NeuralChickens.Api.Domain.Entities
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public int Wins { get; set; }
+
+        public IList<ChickenBrain> ChickenBrains { get; set; } = [];
     }
 }
