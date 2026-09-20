@@ -55,9 +55,10 @@ $simulation
 
 ### Simulator
 
+```bash
 #using python 3.10
 #winget install Python.Python.3.10
-
+```
 Unity Setup:
 In unity add and open: 
 simulator/NeuralChickensSimulator
