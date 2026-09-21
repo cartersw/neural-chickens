@@ -2,7 +2,6 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using NeuralChickens.Api.Application.Interfaces;
 using NeuralChickens.Api.Application.Services;
-using NeuralChickens.Api.BackgroundServices;
 using NeuralChickens.Api.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,8 +51,6 @@ builder.Services.AddDbContextPool<NeuralChickensDbContext>(options =>
         options.EnableDetailedErrors();
     }
 }, poolSize: 128);
-
-builder.Services.AddHostedService<SimulationTrainingWorker>();
 
 var app = builder.Build();
 

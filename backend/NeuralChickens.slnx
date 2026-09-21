@@ -3,4 +3,5 @@
   <Project Path="NeuralChickens.Api.Common/NeuralChickens.Api.Common.csproj" />
   <Project Path="NeuralChickens.Api.Domain/NeuralChickens.Api.Domain.csproj" />
   <Project Path="NeuralChickens.Api/NeuralChickens.Api.csproj" />
+  <Project Path="NeuralChickens.TrainingWorker/NeuralChickens.TrainingWorker.csproj" Id="8d067664-1a7d-4340-b6d7-9900bafd3cd7" />
 </Solution>
