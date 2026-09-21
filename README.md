@@ -39,9 +39,7 @@ dotnet ef database update --project NeuralChickens.Api.Domain --startup-project 
 ```
 
 Start Training Queue:
-```bash
-dotnet run --project backend/NeuralChickens.Api --launch-profile http
-```
+
 Test Find Simulation:
 ```bash
 $simulation = Invoke-RestMethod -Method Post `
