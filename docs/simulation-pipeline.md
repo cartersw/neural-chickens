@@ -1,13 +1,9 @@
 # Simulation pipeline
 
-**Goal:** chickens with different 2D sizes/appendages, each trained independently. First release: create a roster, train each chicken, run a scored Find event, and watch its recording. Live viewing and more modes follow.
-
-
 
 
 ## Target flow
 
-SQL stores product/job state and artifact references. Files live outside SQL/source control. The API accepts work; the Worker supervises it.
 
 ```mermaid
 flowchart TB

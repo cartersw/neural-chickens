@@ -16,6 +16,10 @@ namespace NeuralChickens.Api.Domain.Entities
         [Required]
         public SimulationStatus SimulationStatus { get; set; }
 
+        public Guid? TrainingClaimId { get; set; }
+
+        public DateTime? TrainingLeaseExpiresAt {get; set;}
+
         [Required]
         public int Contestants { get; set; }
 
