@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NeuralChickens.Api.Domain;
 
@@ -11,9 +12,11 @@ using NeuralChickens.Api.Domain;
 namespace NeuralChickens.Api.Domain.Migrations
 {
     [DbContext(typeof(NeuralChickensDbContext))]
-    partial class NeuralChickensDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260923074321_AttemptLeaseSimulation")]
+    partial class AttemptLeaseSimulation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
