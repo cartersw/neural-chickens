@@ -11,6 +11,6 @@ namespace NeuralChickens.Api.Domain.Entities
         public Simulation Simulation { get; set; } = null!;
 
         [Required]
-        public float Speed { get; set; } 
+        public int Size { get; set; } 
     }
 }

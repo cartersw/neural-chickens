@@ -11,6 +11,6 @@ namespace NeuralChickens.Api.Application.DTOs.Simulation
         public string Name { get; set; } = string.Empty;
         [Required]
         public int Contestants { get; set; }
-        public float Speed { get; set; } = 3;
+        public int Size { get; set; } = 3;
     }
 }

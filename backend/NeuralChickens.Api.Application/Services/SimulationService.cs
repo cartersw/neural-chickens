@@ -57,7 +57,7 @@ namespace NeuralChickens.Api.Application.Services
             var findSimulationConfiguration = new FindSimulationConfiguration
             {
                 Simulation = simulation,
-                Speed = postFindSimulationDto.Speed
+                Size = postFindSimulationDto.Size
             };
 
             context.Simulations.Add(simulation);

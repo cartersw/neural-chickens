@@ -18,15 +18,11 @@ namespace NeuralChickens.TrainingWorker
                     var context = scope.ServiceProvider
                         .GetRequiredService<NeuralChickensDbContext>();
 
-                    var pendingCount = await context.Simulations.CountAsync(
-                        simulation =>
-                        simulation.SimulationType == SimulationType.Find &&
-                        simulation.SimulationStatus == SimulationStatus.Requested,
-                        stoppingToken);
+                    
 
                     logger.LogInformation(
                         "There are {Count} waiting",
-                        pendingCount);
+                        0);
                 }
 
                 await Task.Delay(
