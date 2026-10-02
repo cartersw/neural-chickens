@@ -2,11 +2,11 @@ Table Simulations {
   Id int [pk, increment]
   Name nvarchar [not null]
   SimulationType int [not null, note: 'Find=0, Race=1, Sumo=2, Balance=3']
-  SimulationStatus int [not null, note: 'Requested=0, Training=1, Trained=2, Failed=3, Cancelled=4']
+  SimulationStatus int [not null, note: 'Requested=0, Running=1, Completed=2, Failed=3, Cancelled=4']
   Contestants int [not null]
-  RequestedAt datetime [not null]
-  StartedAt datetime
-  CompletedAt datetime
+  RequestedAt datetime2 [not null]
+  StartedAt datetime2
+  CompletedAt datetime2
   VideoPath nvarchar [not null]
 }
 
@@ -16,11 +16,11 @@ Table Chickens {
   Wins int [not null]
 }
 
-Table ChickenBrain {
+Table ChickenBrains {
   Id int [pk, increment]
   SimulationType int [not null, note: 'Find=0, Race=1, Sumo=2, Balance=3']
   BrainPath nvarchar [not null]
-  CreatedAt datetime [not null]
+  CreatedAt datetime2 [not null]
   ChickenId int [not null]
 
   indexes {
@@ -40,7 +40,7 @@ Table SimulationChickens {
 
 Table FindSimulationConfigurations {
   SimulationId int [pk]
-  Speed float [not null]
+  Size int [not null]
 }
 
 Table FindSimulationResults {
@@ -57,7 +57,21 @@ Table RaceSimulationResults {
   WinnerChickenId int
 }
 
-Ref: ChickenBrain.ChickenId > Chickens.Id [delete: cascade]
+Table BrainProcessingJobs {
+  Id int [pk, increment]
+  JobStatus int [not null, note: 'Requested=0, InProgress=1, Completed=2, Failed=3, Cancelled=4']
+  BrainProcessClaimId uniqueidentifier
+  BrainProcessLeaseExpiresAt datetime2
+}
+
+Table SimulationRenderingJobs {
+  Id int [pk, increment]
+  JobStatus int [not null, note: 'Requested=0, InProgress=1, Completed=2, Failed=3, Cancelled=4']
+  SimulationProcessClaimId uniqueidentifier
+  SimulationProcessLeaseExpiresAt datetime2
+}
+
+Ref: ChickenBrains.ChickenId > Chickens.Id [delete: cascade]
 
 Ref: SimulationChickens.SimulationId > Simulations.Id [delete: cascade]
 Ref: SimulationChickens.ChickenId > Chickens.Id [delete: restrict]
