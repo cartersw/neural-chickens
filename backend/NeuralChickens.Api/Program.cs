@@ -12,6 +12,11 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<ISimulationService, SimulationService>();
 
+builder.Services.AddScoped<IChickenService, ChickenService>();
+
+builder.Services.AddScoped<IChickenBrainService, ChickenBrainService>();
+
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", policy =>

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NeuralChickens.Api.Application.Interfaces
 {
-    internal interface IChickenBrainService
+    public interface IChickenBrainService
     {
     }
 }
