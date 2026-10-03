@@ -1,11 +1,11 @@
+﻿using NeuralChickens.Api.Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using NeuralChickens.Api.Common.Enums;
 
 namespace NeuralChickens.Api.Application.DTOs.Training
 {
-    public record TrainingJobClaimDto
+    public record SimulationRenderingJobClaimDto
     {
         public SimulationType SimulationType { get; init; }
         public int SimulationId { get; init; }

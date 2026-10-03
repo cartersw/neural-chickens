@@ -6,9 +6,9 @@ using System.Text;
 
 namespace NeuralChickens.Api.Application.Interfaces.Training
 {
-    public interface ITrainingJobStore
+    public interface IBrainProcessingJobStore
     {
-        Task<TrainingJobClaimDto?> TryClaimNextAsync(
+        Task<BrainProcessingJobClaimDto?> TryClaimNextAsync(
             SimulationType simululationType,
             Guid claimId,
             TimeSpan leaseDuration,
