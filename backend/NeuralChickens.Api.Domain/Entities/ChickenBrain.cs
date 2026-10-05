@@ -10,5 +10,6 @@ namespace NeuralChickens.Api.Domain.Entities
         public DateTime CreatedAt { get; set; }
         public int ChickenId { get; set; }
         public Chicken Chicken { get; set; } = null!;
+        public int BrainProcessingJobId { get; set; }
     }
 }
