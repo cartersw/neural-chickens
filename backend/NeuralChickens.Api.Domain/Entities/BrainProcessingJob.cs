@@ -7,7 +7,7 @@ namespace NeuralChickens.Api.Domain.Entities
     {
         public int Id {get; set;}
         public JobStatus JobStatus { get; set; }
-        public Guid? BrainProcessClaimId { get; set; }
+        public Guid? BrainProcessingClaimId { get; set; }
         public DateTime? BrainProcessLeaseExpiresAt { get; set; }
         [Required]
         public int ChickenId { get; set; }

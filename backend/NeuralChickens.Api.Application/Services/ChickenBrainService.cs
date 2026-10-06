@@ -25,8 +25,10 @@ namespace NeuralChickens.Api.Application.Services
                 SimulationType = postChickenBrainDto.SimulationType,
                 CreatedAt = DateTime.UtcNow,
                 ChickenId = postChickenBrainDto.ChickenId,
-                BrainProcessingJobId = brainProcessingJob.Id
+                BrainProcessingJob = brainProcessingJob
             };
+
+
 
             return Result.Success();
         }
