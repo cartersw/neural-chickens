@@ -1,4 +1,5 @@
 using NeuralChickens.Api.Common.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace NeuralChickens.Api.Domain.Entities
 {
@@ -11,6 +12,6 @@ namespace NeuralChickens.Api.Domain.Entities
         public int ChickenId { get; set; }
         public Chicken Chicken { get; set; } = null!;
         public int BrainProcessingJobId { get; set; }
-        public BrainProcessingJob BrainProcessingJob { get; set; } = null;
+        public BrainProcessingJob? BrainProcessingJob { get; set; }
     }
 }

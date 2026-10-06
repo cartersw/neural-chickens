@@ -2,6 +2,7 @@
 using NeuralChickens.Api.Application.Interfaces;
 using NeuralChickens.Api.Common.Enums;
 using NeuralChickens.Api.Common.Results;
+using NeuralChickens.Api.Domain;
 using NeuralChickens.Api.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Text;
 
 namespace NeuralChickens.Api.Application.Services
 {
-    public class ChickenBrainService : IChickenBrainService
+    public class ChickenBrainService(NeuralChickensDbContext context) : IChickenBrainService
     {
         public async Task<Result> CreateChickenBrainAsync(PostChickenBrainDto postChickenBrainDto)
         {
@@ -28,7 +29,9 @@ namespace NeuralChickens.Api.Application.Services
                 BrainProcessingJob = brainProcessingJob
             };
 
+            context.ChickenBrains.Add(chickenBrain);
 
+            await context.SaveChangesAsync();
 
             return Result.Success();
         }
