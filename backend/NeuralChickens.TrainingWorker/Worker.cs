@@ -22,7 +22,7 @@ namespace NeuralChickens.TrainingWorker
 
                     logger.LogInformation(
                         "There are {Count} waiting",
-                        0);
+                        context.BrainProcessingJobs.CountAsync());
                 }
 
                 await Task.Delay(
