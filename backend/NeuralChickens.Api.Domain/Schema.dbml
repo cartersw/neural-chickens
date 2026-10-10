@@ -1,29 +1,36 @@
 Table Simulations {
   Id int [pk, increment]
-  Name nvarchar [not null]
+  Name nvarchar(max) [not null]
   SimulationType int [not null, note: 'Find=0, Race=1, Sumo=2, Balance=3']
   SimulationStatus int [not null, note: 'Requested=0, Running=1, Completed=2, Failed=3, Cancelled=4']
   Contestants int [not null]
   RequestedAt datetime2 [not null]
   StartedAt datetime2
   CompletedAt datetime2
-  VideoPath nvarchar [not null]
+  VideoPath nvarchar(max) [not null]
+  SimulationRenderingJobId int [not null]
+
+  indexes {
+    SimulationRenderingJobId
+  }
 }
 
 Table Chickens {
   Id int [pk, increment]
-  Name nvarchar [not null]
+  Name nvarchar(max) [not null]
   Wins int [not null]
 }
 
 Table ChickenBrains {
   Id int [pk, increment]
   SimulationType int [not null, note: 'Find=0, Race=1, Sumo=2, Balance=3']
-  BrainPath nvarchar [not null]
+  BrainPath nvarchar(max) [not null]
   CreatedAt datetime2 [not null]
   ChickenId int [not null]
+  BrainProcessingJobId int [not null]
 
   indexes {
+    BrainProcessingJobId
     (ChickenId, SimulationType, CreatedAt)
   }
 }
@@ -39,32 +46,39 @@ Table SimulationChickens {
 }
 
 Table FindSimulationConfigurations {
-  SimulationId int [pk]
+  SimulationId int [pk, not null]
   Size int [not null]
 }
 
 Table FindSimulationResults {
-  SimulationId int [pk]
+  SimulationId int [pk, not null]
   Wins int [not null]
 }
 
 Table RaceSimulationConfigurations {
-  SimulationId int [pk]
+  SimulationId int [pk, not null]
 }
 
 Table RaceSimulationResults {
-  SimulationId int [pk]
+  SimulationId int [pk, not null]
   WinnerChickenId int
 }
 
 Table BrainProcessingJobs {
   Id int [pk, increment]
   JobStatus int [not null, note: 'Requested=0, InProgress=1, Completed=2, Failed=3, Cancelled=4']
-  BrainProcessClaimId uniqueidentifier
+  BrainProcessingClaimId uniqueidentifier
   BrainProcessLeaseExpiresAt datetime2
+  ChickenId int [not null]
+  SimulationType int [not null, note: 'Find=0, Race=1, Sumo=2, Balance=3']
+
+  indexes {
+    ChickenId
+  }
 }
 
-Table SimulationRenderingJobs {
+// Discovered through Simulation.SimulationRenderingJob; no DbSet overrides the table name.
+Table SimulationRenderingJob {
   Id int [pk, increment]
   JobStatus int [not null, note: 'Requested=0, InProgress=1, Completed=2, Failed=3, Cancelled=4']
   SimulationProcessClaimId uniqueidentifier
@@ -72,11 +86,14 @@ Table SimulationRenderingJobs {
 }
 
 Ref: ChickenBrains.ChickenId > Chickens.Id [delete: cascade]
+Ref: ChickenBrains.BrainProcessingJobId > BrainProcessingJobs.Id [delete: cascade]
+Ref: BrainProcessingJobs.ChickenId > Chickens.Id [delete: cascade]
+Ref: Simulations.SimulationRenderingJobId > SimulationRenderingJob.Id [delete: cascade]
 
 Ref: SimulationChickens.SimulationId > Simulations.Id [delete: cascade]
 Ref: SimulationChickens.ChickenId > Chickens.Id [delete: restrict]
 
-Ref: FindSimulationConfigurations.SimulationId - Simulations.Id [delete: cascade]
-Ref: FindSimulationResults.SimulationId - Simulations.Id [delete: cascade]
-Ref: RaceSimulationConfigurations.SimulationId - Simulations.Id [delete: cascade]
-Ref: RaceSimulationResults.SimulationId - Simulations.Id [delete: cascade]
+Ref: Simulations.Id - FindSimulationConfigurations.SimulationId [delete: cascade]
+Ref: Simulations.Id - FindSimulationResults.SimulationId [delete: cascade]
+Ref: Simulations.Id - RaceSimulationConfigurations.SimulationId [delete: cascade]
+Ref: Simulations.Id - RaceSimulationResults.SimulationId [delete: cascade]
