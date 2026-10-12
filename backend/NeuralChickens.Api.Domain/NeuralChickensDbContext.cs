@@ -23,6 +23,7 @@ namespace NeuralChickens.Api.Domain
         public DbSet<FindSimulationConfiguration> FindSimulationConfigurations { get; set; }
         public DbSet<FindSimulationResult> FindSimulationResults { get; set; }
         public DbSet<BrainProcessingJob> BrainProcessingJobs { get; set; }
+        public DbSet<SimulationRenderingJob> SimulationRenderingJob { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
