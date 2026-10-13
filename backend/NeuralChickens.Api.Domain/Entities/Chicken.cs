@@ -10,6 +10,8 @@ namespace NeuralChickens.Api.Domain.Entities
         public string Name { get; set; } = string.Empty;
         public int Wins { get; set; }
 
+        public string BodyDesign { get; set; }
+
         public IList<ChickenBrain> ChickenBrains { get; set; } = [];
     }
 }
