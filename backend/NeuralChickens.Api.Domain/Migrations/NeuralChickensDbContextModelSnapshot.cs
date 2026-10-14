@@ -22,6 +22,36 @@ namespace NeuralChickens.Api.Domain.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("NeuralChickens.Api.Domain.Entities.BrainProcessingJob", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("BrainProcessLeaseExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("BrainProcessingClaimId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ChickenId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("JobStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SimulationType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChickenId");
+
+                    b.ToTable("BrainProcessingJobs");
+                });
+
             modelBuilder.Entity("NeuralChickens.Api.Domain.Entities.Chicken", b =>
                 {
                     b.Property<int>("Id")
@@ -29,6 +59,10 @@ namespace NeuralChickens.Api.Domain.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BodyDesign")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -54,6 +88,9 @@ namespace NeuralChickens.Api.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("BrainProcessingJobId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ChickenId")
                         .HasColumnType("int");
 
@@ -65,6 +102,8 @@ namespace NeuralChickens.Api.Domain.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BrainProcessingJobId");
+
                     b.HasIndex("ChickenId", "SimulationType", "CreatedAt");
 
                     b.ToTable("ChickenBrains");
@@ -75,8 +114,8 @@ namespace NeuralChickens.Api.Domain.Migrations
                     b.Property<int>("SimulationId")
                         .HasColumnType("int");
 
-                    b.Property<float>("Speed")
-                        .HasColumnType("real");
+                    b.Property<int>("Size")
+                        .HasColumnType("int");
 
                     b.HasKey("SimulationId");
 
@@ -140,6 +179,9 @@ namespace NeuralChickens.Api.Domain.Migrations
                     b.Property<DateTime>("RequestedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("SimulationRenderingJobId")
+                        .HasColumnType("int");
+
                     b.Property<int>("SimulationStatus")
                         .HasColumnType("int");
 
@@ -149,17 +191,13 @@ namespace NeuralChickens.Api.Domain.Migrations
                     b.Property<DateTime?>("StartedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("TrainingClaimId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("TrainingLeaseExpiresAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("VideoPath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SimulationRenderingJobId");
 
                     b.ToTable("Simulations");
                 });
@@ -179,13 +217,54 @@ namespace NeuralChickens.Api.Domain.Migrations
                     b.ToTable("SimulationChickens");
                 });
 
+            modelBuilder.Entity("NeuralChickens.Api.Domain.Entities.SimulationRenderingJob", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("JobStatus")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("SimulationProcessClaimId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("SimulationProcessLeaseExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SimulationRenderingJob");
+                });
+
+            modelBuilder.Entity("NeuralChickens.Api.Domain.Entities.BrainProcessingJob", b =>
+                {
+                    b.HasOne("NeuralChickens.Api.Domain.Entities.Chicken", "Chicken")
+                        .WithMany()
+                        .HasForeignKey("ChickenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chicken");
+                });
+
             modelBuilder.Entity("NeuralChickens.Api.Domain.Entities.ChickenBrain", b =>
                 {
+                    b.HasOne("NeuralChickens.Api.Domain.Entities.BrainProcessingJob", "BrainProcessingJob")
+                        .WithMany()
+                        .HasForeignKey("BrainProcessingJobId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("NeuralChickens.Api.Domain.Entities.Chicken", "Chicken")
                         .WithMany("ChickenBrains")
                         .HasForeignKey("ChickenId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("BrainProcessingJob");
 
                     b.Navigation("Chicken");
                 });
@@ -232,6 +311,17 @@ namespace NeuralChickens.Api.Domain.Migrations
                         .IsRequired();
 
                     b.Navigation("Simulation");
+                });
+
+            modelBuilder.Entity("NeuralChickens.Api.Domain.Entities.Simulation", b =>
+                {
+                    b.HasOne("NeuralChickens.Api.Domain.Entities.SimulationRenderingJob", "SimulationRenderingJob")
+                        .WithMany()
+                        .HasForeignKey("SimulationRenderingJobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SimulationRenderingJob");
                 });
 
             modelBuilder.Entity("NeuralChickens.Api.Domain.Entities.SimulationChicken", b =>

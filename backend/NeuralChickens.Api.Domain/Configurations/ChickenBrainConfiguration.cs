@@ -20,6 +20,11 @@ namespace NeuralChickens.Api.Domain.Configurations
                 .HasForeignKey(b => b.ChickenId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasOne(b => b.BrainProcessingJob)
+                .WithMany()
+                .HasForeignKey(b => b.BrainProcessingJobId)
+                .OnDelete(DeleteBehavior.NoAction);
+
 
             builder.HasIndex(b => new { b.ChickenId, b.SimulationType, b.CreatedAt });
 
