@@ -12,7 +12,7 @@ using NeuralChickens.Api.Domain;
 namespace NeuralChickens.Api.Domain.Migrations
 {
     [DbContext(typeof(NeuralChickensDbContext))]
-    [Migration("20261014113146_BigQueueChanges")]
+    [Migration("20261015121457_BigQueueChanges")]
     partial class BigQueueChanges
     {
         /// <inheritdoc />
